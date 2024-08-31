@@ -61,7 +61,7 @@ document.getElementById('dentalForm').addEventListener('submit', function(event)
         records.push(jsonData);
     }
 
-
+    alert(`Lưu dữ liệu với tên ${jsonData.name} thành công`)
     localStorage.setItem('dentalRecords', JSON.stringify(records));
     displayRecords();
     this.reset();
@@ -72,6 +72,7 @@ document.getElementById('dentalForm').addEventListener('submit', function(event)
     document.getElementById("visitDate").value = today;
     document.getElementById("appointment").value = today;
     //document.getElementById("dateBang").innerHTML = today;
+    
 
 });
 
