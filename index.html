@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Record Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(179, 203, 207);
+            margin: 20px;
+        }
+
+        .cp-text{
+             color: rgba(0,0,0,.7); 
+             font-size: 30px;
+             text-shadow: 0 1px rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+
+        #clock {
+            font-family: 'Arial', sans-serif;
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+
+        
+        .hidden {
+            display: none;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .flexdata{
+            display: flex;
+        }
+
+        /* styles.css */
+        .dialog-box {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .dialog-box.active {
+            display: block;
+        }
+        .dialog-box button {
+            margin-top: 10px;
+        }
+        /* Optional: Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .overlay.active {
+            display: block;
+        }
+
+
+
+        /* CSS cho modal */
+.modal {
+    display: none; /* Ẩn theo mặc định */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 150px; /* Có thể thay đổi kích thước */
+    text-align: center;
+}
+
+/* CSS cho spinner */
+.spinner {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/*css popup */
+/* CSS cho modal */
+.modal {
+    display: block; /* Hiển thị popup khi trang load */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+}
+
+
+
+    
+    </style>
+</head>
+<body>
+
+     <!-- Popup/Modal cho mật khẩu
+     <div id="passwordPopup" class="modal">
+        <div class="modal-content">
+            <h3>Vui lòng đăng nhập</h3>
+            <input type="text" id="usernameInput" placeholder="UserName">
+            <input type="password" id="passwordInput" placeholder="Password">
+            <button onclick="checkPassword()">Submit</button>
+            <p id="error" style="color: red; display: none;">Mật khẩu hoặc tên đăng nhập sai</p>
+        </div>
+    </div> -->
+
+
+
+    <div class="container">
+        <div style="display: flex;justify-content: space-between;align-items: center;">
+             <h1 class="my-4">Nha Khoa Đức Hạnh Bình Thuận</h1>
+        <h2 id="clock">time</h2>
+        </div>
+        <div>
+            <p style="font-size: 20px; font-weight: bold;">
+                Phone: 0947 137 139 (Đức Hạnh)  or 0888 974 974 (Hà My)
+
+            </p>
+        </div>
+        
+
+<!-- Popup/Modal cho loading -->
+<div id="loadingPopup" class="modal" style="display: none;">
+    <div class="modal-content">
+        <!-- Spinner sẽ hiển thị ở đây khi loading -->
+        <div id="loadingSpinner" class="spinner" style="margin: 20px auto;"></div>
+        <p style="text-align: center;">Đang tải</p>
+    </div>
+</div>
+
+
+
+        <div id="searchSection" class="mb-4" style="margin-right: 50px;">
+            <button type="button" hidden class="btn btn-primary" onclick="addNew()">Thêm Bệnh nhân</button>
+        </div>
+
+        <div class="flexdata" style="justify-content: center;" >
+
+            <div id="searchSection" class="mb-4" style="margin-right: 50px;">
+                <label for="searchPhone" class="form-label">Tìm kiếm theo số điện thoại:</label>
+                <input type="text" id="searchPhone" class="form-control" oninput="searchRecords()">
+            </div>
+
+            <div id="searchSection" class="mb-4">
+                <label for="searchPhone" class="form-label">Kiểm tra lịch hẹn:</label>
+                <input type="date" id="lichhen" name="dob" class="form-control" oninput="searchLichHen()">
+            </div>
+            <div id="searchSection" style="margin-top: 30px; margin-left: 30px;" class="mb-4">
+                <button  class="btn btn-success" onclick="removeSearch()">Bỏ search</button>
+            </div>
+
+           
+        </div>
+
+       
+
+        <form id="dentalForm" class="mb-4">
+            <input type="hidden" id="recordId">
+
+            <div class="flexdata">
+                 <div class="mb-3" style="margin-right: 50px;">
+                    <label for="name" class="form-label">Họ và tên:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+
+                <div class="mb-3" style="margin-right: 50px;">
+                    <label for="phone" class="form-label">Số điện thoại:</label>
+                    <input type="text" id="phone" name="phone" class="form-control" required>
+                </div>
+
+                <div class="mb-3" style="margin-right: 50px;">
+                    <label for="dob" class="form-label">Tuổi:</label>
+                    <input type="text" id="dob" name="dob" class="form-control" required>
+                </div>
+    
+                <div class="mb-3" style="margin-right: 50px;">
+                    <label for="visitDate" class="form-label">Ngày khám:</label>
+                    <input type="date" id="visitDate" name="visitDate" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="appointmentDate" class="form-label">Ngày hẹn:</label>
+                    <td><input type="date" id="appointment" name="appointment" class="form-control"></td>
+                </div>
+               
+
+                
+            </div>
+           
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Địa chỉ:</label>
+                <input type="text" id="address" name="address" class="form-control" required>
+            </div>
+            
+
+            <table id="table1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Răng</th>
+                        <th>Công tác điều trị</th>
+                        <th>Chi phí</th>
+                        <th>Trả</th>
+                        <th>Còn</th>
+                        <th>Bác sĩ</th>
+                    </tr>
+                </thead>
+                <tbody id="treatmentTableBody">
+                    <tr>
+                        <td><input style="width: 130px;" type="date" name="date" class="form-control"></td>
+                        <td><input type="text" name="tooth" class="form-control"></td>
+                        <td><input style="width: 500px;" name="treatment" class="form-control"></td>
+                        <td><input type="number" name="cost" class="form-control"></td>
+                        <td><input type="number" name="paid" class="form-control"></td>
+                        <td><input type="number" name="remaining"  readonly class="form-control"></td>
+                        <td><input style="width: 50px;" type="text" name="doctor" class="form-control" value="My"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" onclick="addRow()">Thêm dòng</button>
+            <button type="submit" class="btn btn-success">Lưu</button>
+            <button type="button" class="btn btn-danger hidden" onclick="deleteRecord()" id="deleteButton">Xóa</button>
+            <label for="exampleTextField" style="font-size: 50px; color: red; font-weight: bold;" id="texxt"  class="form-label">Example Text Field</label>
+        </form>
+
+        <div class="mb-4">
+            <button type="button" style="background-color: rgb(124, 120, 241); border-radius: 10px;" onclick="saveToFile()">Kết sổ cuối tháng</button>
+            <button type="button" style="background-color: rgb(229, 244, 142); border-radius: 10px;" onclick="uploadCloudData()">Lưu lên cloud</button>
+            <button type="button" style="background-color: rgb(136, 241, 120); border-radius: 10px;" onclick="dowloadCloudData()">Tải dữ liệu từ cloud</button>
+            <button type="button" style="background-color: rgb(240, 88, 88); border-radius: 10px;" onclick="saveToFileDelete()">Lưu và xóa dữ liệu</button>
+            <button type="button" style="background-color: rgb(85, 245, 232); border-radius: 10px;" onclick="loadFromFile()">Tải dữ liệu file</button>
+            <button id="exportButton" style="background-color: rgb(242, 98, 225); border-radius: 10px;">Thống kê Doanh thu hiện tại</button>
+            <button type="button" style="background-color: rgb(100, 107, 244); border-radius: 10px;" onclick="loadFromFileThang()">Thống kê Doanh thu Theo tháng</button>
+    
+        
+            <input type="file" id="fileInput" class="hidden" onchange="handleFileUpload(event)">
+            <input type="file" id="fileInputThang" class="hidden" onchange="handleFileUploadThang(event)">
+        </div>
+
+       <!-- Dialog box for showing totals -->
+       <div id="overlay" class="overlay"></div>
+
+       <!-- Dialog box for showing totals -->
+       <div id="dialog" class="dialog-box">
+           <div id="totals"></div>
+           <button onclick="closeDialog()">Close</button>
+       </div>
+
+        <table  class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Họ và tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Tuổi</th>
+                    <th>Ngày khám</th>
+                    <th>Ngày Hẹn</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="recordTableBody">
+                <!-- Các bản ghi sẽ được hiển thị ở đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <p class="cp-text">
+        © Copyright 2024 <a href="https://facebook.com/nguyenkhoi2202">KhoiTN</a>. Bản quyền thuộc  về <a href="https://facebook.com/nguyenkhoi2202">KhoiTN</a>.
+    </p>
+
+    <script src="app.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+</body>
+</html>
