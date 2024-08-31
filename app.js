@@ -19,7 +19,7 @@ function addRow() {
         (col === 'cost' || col === 'paid' || col === 'remaining') ? 'number' : 'text';
         input.name = col;
         if (col === 'doctor') {
-            input.value = 'My';
+            input.value = 'Hạnh';
         }
         if (col === 'remaining') {
             input.readOnly = true;
@@ -233,7 +233,7 @@ function saveToFile() {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `DucHanh-${getFormattedDate()}.json`; // Thay đổi đuôi file thành .json để phản ánh định dạng dữ liệu
+            a.download = `DucHanhCuBao-${getFormattedDate()}.json`; // Thay đổi đuôi file thành .json để phản ánh định dạng dữ liệu
             document.body.appendChild(a);
 
             a.click();
@@ -276,7 +276,7 @@ function saveToFileChange(){
         // document.body.removeChild(a);
 
 
-        fetch('https://script.google.com/macros/s/AKfycbzjXxdGVStI7qLNEvMXZNqipkd9MC6IUtJ66KdFY69Va-iELCrx0FUit0fhMYky-NHx/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
             method: 'POST',
             body: JSON.stringify(records, null, 2),
         })
@@ -301,7 +301,7 @@ function saveToFileDelete() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `DucHanh-${getFormattedDate()}.txt`;
+        a.download = `DucHanhCuBao-${getFormattedDate()}.json`;
         document.body.appendChild(a);
         // if(isLastDayOfMonth(today)){
         //     a.click();
@@ -328,7 +328,7 @@ function loadFromFileThang(){
 }
 
 function handleFileUploadCloud() {
-    fetch('https://script.google.com/macros/s/AKfycbzjXxdGVStI7qLNEvMXZNqipkd9MC6IUtJ66KdFY69Va-iELCrx0FUit0fhMYky-NHx/exec')
+    fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec')
         .then(response => response.text())
         .then(data => {
             try {
