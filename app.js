@@ -139,21 +139,7 @@ function deleteRecord() {
 }
 
 function addNew(){
-    document.getElementById("searchPhone").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
-    // document.getElementById("myInputField").value = "";
-    // document.getElementById("myInputField").value = "";
-    // document.getElementById("myInputField").value = "";
-
-    var inputs = document.querySelectorAll("#treatmentTableBody input, #treatmentTableBody textarea");
-    
-    // Lặp qua từng input và textarea để xóa dữ liệu
-    inputs.forEach(function(input) {
-        if (input.type !== "submit" && input.type !== "button" && !input.hasAttribute('readonly')) {
-            input.value = "";
-        }
-    });
+    location.reload();
 }
 
 function searchLichHen(){
