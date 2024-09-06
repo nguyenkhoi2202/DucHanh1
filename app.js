@@ -144,6 +144,7 @@ function addNew(){
 
 function searchLichHen(){
     const lichhen = document.getElementById('lichhen').value;
+   
     let filteredRecords = records.filter(record => record.appointment.toLowerCase().includes(lichhen));
 
 
@@ -516,8 +517,8 @@ function removeSearch(){
 
 function checkOneDay(){
      //const today = formatDateToDDMMYYYY(new Date());
-     const today = new Date().toISOString().split('T')[0];
-    let filteredRecords = records.filter(record => record.visitDate.toLowerCase().includes(today));
+     const onedaySearch = document.getElementById('oneday').value;
+    let filteredRecords = records.filter(record => record.visitDate.toLowerCase().includes(onedaySearch));
 
 
     const tableBody = document.getElementById('recordTableBody');
