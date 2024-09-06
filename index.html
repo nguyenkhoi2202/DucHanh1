@@ -182,8 +182,9 @@
 
 
 
-        <div id="searchSection" class="mb-4" style="margin-right: 50px;">
+        <div id="searchSection" class="mb-4"  style="margin-right: 50px;">
             <button type="button"  class="btn btn-primary" onclick="addNew()">Thêm Bệnh nhân</button>
+            <button type="button" style="background-color: rgb(136, 241, 120); border-radius: 10px;" onclick="dowloadCloudData()">Tải dữ liệu từ cloud</button>
         </div>
 
         <div class="flexdata" style="justify-content: center;" >
@@ -196,6 +197,9 @@
             <div id="searchSection" class="mb-4">
                 <label for="searchPhone" class="form-label">Kiểm tra lịch hẹn:</label>
                 <input type="date" id="lichhen" name="dob" class="form-control" oninput="searchLichHen()">
+            </div>
+            <div id="searchSection" style="margin-top: 30px; margin-left: 30px;" class="mb-4">
+                <button  class="btn btn-success" onclick="checkOneDay()">Bệnh nhân trong ngày</button>
             </div>
             <div id="searchSection" style="margin-top: 30px; margin-left: 30px;" class="mb-4">
                 <button  class="btn btn-success" onclick="removeSearch()">Bỏ search</button>
@@ -278,7 +282,7 @@
         <div class="mb-4">
             <button type="button" style="background-color: rgb(124, 120, 241); border-radius: 10px;" onclick="saveToFile()">Kết sổ cuối tháng</button>
             <button type="button" style="background-color: rgb(229, 244, 142); border-radius: 10px;" onclick="uploadCloudData()">Lưu lên cloud</button>
-            <button type="button" style="background-color: rgb(136, 241, 120); border-radius: 10px;" onclick="dowloadCloudData()">Tải dữ liệu từ cloud</button>
+            
             <button type="button" style="background-color: rgb(240, 88, 88); border-radius: 10px;" onclick="saveToFileDelete()">Lưu và xóa dữ liệu</button>
             <button type="button" style="background-color: rgb(85, 245, 232); border-radius: 10px;" onclick="loadFromFile()">Tải dữ liệu file</button>
             <button id="exportButton" style="background-color: rgb(242, 98, 225); border-radius: 10px;">Thống kê Doanh thu hiện tại</button>

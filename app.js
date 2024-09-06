@@ -514,6 +514,31 @@ function removeSearch(){
     displayRecords();
 }
 
+function checkOneDay(){
+     //const today = formatDateToDDMMYYYY(new Date());
+     const today = new Date().toISOString().split('T')[0];
+    let filteredRecords = records.filter(record => record.visitDate.toLowerCase().includes(today));
+
+
+    const tableBody = document.getElementById('recordTableBody');
+    tableBody.innerHTML = '';
+    filteredRecords.forEach((record, index) => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = index + 1;
+        row.insertCell(1).textContent = record.name;
+        row.insertCell(2).textContent = record.phone;
+        row.insertCell(3).textContent = record.address;
+        row.insertCell(4).textContent = record.dob;
+        row.insertCell(5).textContent = record.visitDate;
+        row.insertCell(6).textContent = record.appointment;
+        const actionCell = row.insertCell(7);
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Sửa';
+        editButton.onclick = () => editRecord(records.indexOf(record));
+        actionCell.appendChild(editButton);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('visitDate').value = today;
@@ -556,7 +581,11 @@ updateClock();
 
 
 function dowloadCloudData() {
-    // Hiển thị popup loading
+
+    const confirmation = confirm("Bạn có chắc chắn muốn tải dữ liệu từ cloud về không?");
+
+    if(confirmation){
+         // Hiển thị popup loading
     const loadingPopup = document.getElementById('loadingPopup');
     loadingPopup.style.display = 'block';
 
@@ -567,6 +596,8 @@ function dowloadCloudData() {
         // Hiển thị thông báo thành công
         alert('Tải dữ liệu từ cơ sở dữ liệu thành công')
     });
+
+    }
 }
 
 function uploadCloudData() {
