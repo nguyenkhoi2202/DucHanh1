@@ -241,41 +241,32 @@ function saveToFile() {
     }
    
 }
-function saveToFileChange(){
-    const confirmation = confirm("Bạn có chắc chắn muốn lưu dữ liệu lên cloud và chuyển sang máy tính khác");
+function saveToFileChange() {
+   
+        const confirmation = confirm("Bạn có chắc chắn muốn lưu dữ liệu lên cloud và chuyển sang máy tính khác");
 
-    if(confirmation){
-        // const today = new Date();
-        // const dataStr = JSON.stringify(records, null, 2);
-        // const blob = new Blob([dataStr], { type: 'application/json' });
-        // const url = URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // a.href = url;
-        // a.download = `DucHanh-${getFormattedDate()}.txt`;
-        // document.body.appendChild(a);
-        // // if(isLastDayOfMonth(today)){
-        // //     a.click();
-        // // }else{
-        // //     alert('Chỉ ngày cuối tháng mới được lưu file nh')
-        // // }
-        // a.click();
-        
-       
-        // document.body.removeChild(a);
+        // Chỉ tiến hành khi người dùng xác nhận
+        if (confirmation) {
+            fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
+                method: 'POST',
+                body: JSON.stringify(records, null, 2),
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Kết quả sau khi cập nhật file
+                alert('Lưu dữ liệu lên cơ sở dữ liệu thành công');
+                location.reload(); // Reload trang sau khi hoàn tất
+            })
+            .catch(error => {
+                console.error('Lỗi khi lưu dữ liệu:', error);
+                alert('Có lỗi xảy ra khi lưu dữ liệu lên cloud');
+            });
+        }else{
+            loadingPopup.style.display = 'none';
+        }
 
-
-        fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
-            method: 'POST',
-            body: JSON.stringify(records, null, 2),
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data); // Kết quả sau khi cập nhật file
-            alert('Lưu dữ liệu lên cơ sở dữ liệu thành công')
-            location.reload();
-        });
-    }
 }
+
 
 
 function saveToFileDelete() {
@@ -601,17 +592,26 @@ function dowloadCloudData() {
     }
 }
 
-function uploadCloudData() {
-    // Hiển thị popup loading
-    const loadingPopup = document.getElementById('loadingPopup');
-    loadingPopup.style.display = 'block';
+async function uploadCloudData() {
+    const pass = document.getElementById('passCloud').value;
+    const passHash = await generateSHA256(pass);
+    console.log(passHash);
 
-    // Gọi hàm xử lý công việc
-    saveToFileChange().then(() => {
-        // Tắt popup loading
-        loadingPopup.style.display = 'none';
-        // Hiển thị thông báo thành công
-    });
+    // Kiểm tra mật khẩu trước
+    if (passHash === '991a3defd73e481618e9cd44694d9181b8cebc5b3842b28fafec24f89ea63a18') {
+        // Hiển thị popup loading
+        const loadingPopup = document.getElementById('loadingPopup');
+        loadingPopup.style.display = 'block';
+
+        // Gọi hàm xử lý công việc
+        saveToFileChange().then(() => {
+            // Tắt popup loading
+            loadingPopup.style.display = 'none';
+            // Hiển thị thông báo thành công
+        });
+    }else {
+        alert('Mật khẩu không chính xác');
+    }
 }
 
 function checkPassword() {
@@ -628,11 +628,19 @@ function checkPassword() {
     }
 }
 
-// Ngăn người dùng truy cập trang nếu không nhập mật khẩu đúng
-window.onload = function() {
-    document.getElementById('passwordPopup').style.display = 'block';
-    document.getElementById('content').style.display = 'none';
-};
+
+async function generateSHA256(value) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(value);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+
+
+
 
 
 
