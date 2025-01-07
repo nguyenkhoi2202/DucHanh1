@@ -138,6 +138,16 @@
     text-align: center;
 }
 
+.containerTongTien {
+    display: flex;
+    gap: 10px;
+
+}
+.itemTongTien {
+  padding: 10px;
+  background-color: lightblue;
+  border: 1px solid #ccc;
+}
 
 
     
@@ -278,7 +288,19 @@
                         <td><input style="width: 70px;" type="text" name="doctor" class="form-control" value="Hạnh"></td>
                     </tr>
                 </tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input style="background-color: rgb(167, 228, 234);" readonly id="totalCost1">Tổng tiền</input></td>
+                    <td><input style="background-color: rgb(167, 228, 234);" readonly id="totalPaid1">Tổng Trả</input></td>
+                    <td><input style="background-color: rgb(167, 228, 234);" readonly id="totalRemaining1">Tổng còn</input></td>
+                    <td></td>
+                </tr>
             </table>
+              
+           
+
             <button type="button" class="btn btn-primary" onclick="addRow()">Thêm dòng</button>
             <button type="submit" class="btn btn-success">Lưu</button>
             <button type="button" class="btn btn-danger hidden" onclick="deleteRecord()" id="deleteButton">Xóa</button>
