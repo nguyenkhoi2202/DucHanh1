@@ -247,7 +247,7 @@ function saveToFileChange() {
 
         // Chỉ tiến hành khi người dùng xác nhận
         if (confirmation) {
-            fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbz9N71OYiZxKw4pUMP7DKK1xqgK0HzNfu_sDLF-sWqZwsovQP000AKxn7cDELFkzQ/exec', {
                 method: 'POST',
                 mode: 'no-cors',
                 body: JSON.stringify(records, null, 2),
@@ -308,7 +308,7 @@ function loadFromFileThang(){
 }
 
 function handleFileUploadCloud() {
-    fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbz9N71OYiZxKw4pUMP7DKK1xqgK0HzNfu_sDLF-sWqZwsovQP000AKxn7cDELFkzQ/exec', {
         mode: 'no-cors',
     })
         .then(response => response.text())
