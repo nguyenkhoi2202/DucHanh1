@@ -308,9 +308,7 @@ function loadFromFileThang(){
 }
 
 function handleFileUploadCloud() {
-    fetch('https://script.google.com/macros/s/AKfycbz9N71OYiZxKw4pUMP7DKK1xqgK0HzNfu_sDLF-sWqZwsovQP000AKxn7cDELFkzQ/exec', {
-        mode: 'no-cors',
-    })
+    fetch('https://script.google.com/macros/s/AKfycbz9N71OYiZxKw4pUMP7DKK1xqgK0HzNfu_sDLF-sWqZwsovQP000AKxn7cDELFkzQ/exec')
         .then(response => response.text())
         .then(data => {
             try {
