@@ -249,6 +249,7 @@ function saveToFileChange() {
         if (confirmation) {
             fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
                 method: 'POST',
+                mode: 'no-cors',
                 body: JSON.stringify(records, null, 2),
             })
             .then(response => response.text())
@@ -307,7 +308,9 @@ function loadFromFileThang(){
 }
 
 function handleFileUploadCloud() {
-    fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec')
+    fetch('https://script.google.com/macros/s/AKfycbwZk2mH8p0fhLmNRhSxWE-ZGs4_Iel6rppWqaTGX5jWcVAr_5WYqNR0OmfKFWBjuGGM/exec', {
+        mode: 'no-cors',
+    })
         .then(response => response.text())
         .then(data => {
             try {
