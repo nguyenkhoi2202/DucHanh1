@@ -685,9 +685,15 @@ function updateTotals() {
     document.querySelector('#totalRemaining1').value = totalCost1 - totalPaid1;
 }
 
-
-
-
+$(document).ready(function() {
+    $('#table2').DataTable({
+        paging: true, // Phân trang
+        searching: false, // Tắt tính năng tìm kiếm nếu không cần
+        ordering: true, // Kích hoạt sắp xếp
+        info: false, // Tắt thông tin số lượng
+        pageLength: 5, // Số dòng trên mỗi trang
+    });
+});
 
 
 
